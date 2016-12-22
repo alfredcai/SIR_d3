@@ -1,13 +1,13 @@
 var width = 960,
     height = 500,
-    padding = 4, // separation between same-color circles
+    padding = 2, // separation between same-color circles
     clusterPadding = 8, // separation between different-color circles
-    maxRadius = 12;
+    maxRadius = 14;
 
-var n = 100, // total number of circles
+var n = 500, // total number of circles
     m = 3, // number of distinct clusters
-    s = i = r = 0,
-    s2i = 0.1, i2r = 0.2, r2s = 0.1
+    susceptible = infectious = recovered = 0,
+    s2i = 0.9, i2r = 0.2, r2s = 0.1
 
 var color = d3.scale.category10().domain(d3.range(m));
 
@@ -17,16 +17,16 @@ var clusters = new Array(m);
 var dataPoints = d3.range(n).map(() => {
     let i = Math.floor(Math.random() * m),
         //r = Math.sqrt((i + 1) / m * -Math.log(Math.random())) * maxRadius,
-        r = maxRadius,
+        r = Math.random() * (maxRadius - 1) + 0.5,
         node = {
             cluster: i,
             radius: r
         };
     if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = node;
     switch (i) {
-        case 0: s++; break;
-        case 1: i++; break;
-        case 2: r++; break;
+        case 0: susceptible++; break;
+        case 1: infectious++; break;
+        case 2: recovered++; break;
         default: break;
     }
     return node;
@@ -56,47 +56,39 @@ var circle = svg.selectAll("circle")
     .call(force.drag);
 
 function tick(e) {
-    drawCircle(e);
-    // console.log('tick');
-}
-
-function timeOutFunction() {
-    //let i = Math.floor(Math.random() * m)
-    let infect = Math.floor(s * s2i),
-        recover = Math.floor(i * i2r),
-        index = 0, count = 0
-    if (s - infect > 0) s -= infect;
-    // while (count < infect) {
-    //     if (index > n) break;
-    //     let myNode = dataPoints[index++];
-    //     if (myNode.cluster != 0) continue;
-    //     let cluster = cluster[myNode.cluster]
-    //     if (cluster === myNode) continue;
-    //     myNode.cluster = 1;
-    //     s--; r++; count++;
-    // }
-}
-
-function changeDataPoints(formTag, toTag, total) {
-    let index = 0, count = 0
-    while (count < total) {
-        if (index > n) break;
-        let myNode = dataPoints[index++];
-        if (myNode.cluster != formTag) continue;
-        let cluster = cluster[myNode.cluster]
-        if (cluster === myNode) continue;
-        myNode.cluster = toTag;
-        s--; r++; count++;
-    }
-}
-
-function drawCircle(e) {
     circle
         .each(cluster(10 * e.alpha * e.alpha))
         .each(collide(.5))
         .attr("cx", d => d.x)
         .attr("cy", d => d.y);
-    console.log('drawCircle');
+}
+
+function timeOutFunction() {
+    //let i = Math.floor(Math.random() * m)
+    let toInfectNumber = Math.floor(susceptible * s2i),
+        toRecover = Math.floor(infectious * i2r)
+    console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
+    becomeInfect(toInfectNumber);
+    console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
+    redrawCircle();
+}
+
+function becomeInfect(total) {
+    let hasChange = 0, index = 0,
+        thisCluster = clusters[0]
+    while (hasChange < total) {
+        if (susceptible <= 0) break;
+        let thisNode = dataPoints[index++];
+        if (thisNode.cluster != 0 || thisNode === thisCluster) continue;
+        thisNode.cluster = 1;
+        susceptible--; infectious++;
+        hasChange++;
+    }
+}
+
+function redrawCircle() {
+    circle.enter()
+    .style('fill',d => color(d.cluster))
 }
 
 // Move d to be adjacent to the cluster node.
