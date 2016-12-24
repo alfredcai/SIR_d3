@@ -3,10 +3,9 @@ var [width, height] = [960, 500],
     clusterPadding = 8, // separation between different-color circles
     maxRadius = 14;
 
-var [n, m] = [300, 3], // total number of circles,number of distinct clusters
-    susceptible = infectious = recovered = 0;
-
-var [s2i, i2r, r2s] = [0.2, 0.2, 0.3],
+var [n, m] = [300, 3]; // total number of circles,number of distinct clusters
+var susceptible = infectious = recovered = 0,
+    [s2i, i2r, r2s] = [0.2, 0.2, 0.3],
     [toInfectInterval, toRecoverInterval, toSusceptInterval] = [2000, 2000, 2000];
 
 var color = d3.scale.category10()
