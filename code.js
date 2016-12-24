@@ -1,5 +1,3 @@
-
-
 var width = 960,
     height = 500,
     padding = 2, // separation between same-color circles
@@ -9,7 +7,7 @@ var width = 960,
 var n = 300, // total number of circles
     m = 3, // number of distinct clusters
     susceptible = infectious = recovered = 0,
-    s2i = 0.3, i2r = 0.2, r2s = 0.1
+    s2i = 0.3, i2r = 0.2, r2s = 0.3
 
 var color = d3.scale.category10()
     .domain(d3.range(m));
@@ -66,29 +64,75 @@ function tick(e) {
         .attr("cy", d => d.y);
 }
 
-function intervalEvent(){
-    let toInfectNumber = Math.floor(susceptible * s2i),
-        toRecover = Math.floor(infectious * i2r)
+function intervalEvent() {
+    /*
+        3 seconds susceptible --> infectious
+        3 seconds infectious --> recovered
+        3 seconds recovered --> susceptible
+        9 seconds use in one event
+     */
+    let toInfectInterval = 2000,
+        toRecoverInterval = 2500,
+        toSusceptInterval = 3000,
+        eventInterval = Math.max(toInfectInterval, toRecoverInterval, toSusceptInterval);
     console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
-    becomeInfect(toInfectNumber);
-    console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
-    redrawCircle();
-    setTimeout("intervalEvent()", 10000);
+    setTimeout(becomeInfect, toInfectInterval);
+    setTimeout(becomeRecover, toRecoverInterval);
+    setTimeout(becomeSuscept, toSusceptInterval);
+    setTimeout(intervalEvent, eventInterval);
 }
 
-setTimeout("intervalEvent()", 5000);  
+setTimeout(intervalEvent, 5000);
 
-function becomeInfect(total) {
-    let hasChange = 0, index = 0,
+function becomeInfect() {
+    let hasChange = 0,
+        index = Math.floor(Math.random() * n),
+        total = Math.floor(susceptible * s2i),
         thisCluster = clusters[0]
     while (hasChange < total) {
         if (susceptible <= 0) break;
+        if (index >= n) index = 0;
         let thisNode = dataPoints[index++];
         if (thisNode.cluster != 0 || thisNode === thisCluster) continue;
         thisNode.cluster = 1;
         susceptible--; infectious++;
         hasChange++;
     }
+    redrawCircle();
+}
+
+function becomeRecover() {
+    let hasChange = 0,
+        index = Math.floor(Math.random() * n),
+        total = Math.floor(infectious * i2r),
+        thisCluster = clusters[1]
+    while (hasChange < total) {
+        if (infectious <= 0) break;
+        if (index >= n) index = 0;
+        let thisNode = dataPoints[index++];
+        if (thisNode.cluster != 1 || thisNode === thisCluster) continue;
+        thisNode.cluster = 2;
+        infectious--; recovered++;
+        hasChange++;
+    }
+    redrawCircle();
+}
+
+function becomeSuscept() {
+    let hasChange = 0,
+        index = Math.floor(Math.random() * n),
+        total = Math.floor(recovered * r2s),
+        thisCluster = clusters[2]
+    while (hasChange < total) {
+        if (recovered <= 0) break;
+        if (index >= n) index = 0;
+        let thisNode = dataPoints[index++];
+        if (thisNode.cluster != 2 || thisNode === thisCluster) continue;
+        thisNode.cluster = 0;
+        recovered--; susceptible++;
+        hasChange++;
+    }
+    redrawCircle();
 }
 
 function redrawCircle() {
