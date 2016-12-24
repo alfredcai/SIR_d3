@@ -1,15 +1,18 @@
+
+
 var width = 960,
     height = 500,
     padding = 2, // separation between same-color circles
     clusterPadding = 8, // separation between different-color circles
     maxRadius = 14;
 
-var n = 500, // total number of circles
+var n = 300, // total number of circles
     m = 3, // number of distinct clusters
     susceptible = infectious = recovered = 0,
-    s2i = 0.9, i2r = 0.2, r2s = 0.1
+    s2i = 0.3, i2r = 0.2, r2s = 0.1
 
-var color = d3.scale.category10().domain(d3.range(m));
+var color = d3.scale.category10()
+    .domain(d3.range(m));
 
 // The largest node for each cluster.
 var clusters = new Array(m);
@@ -63,15 +66,17 @@ function tick(e) {
         .attr("cy", d => d.y);
 }
 
-function timeOutFunction() {
-    //let i = Math.floor(Math.random() * m)
+function intervalEvent(){
     let toInfectNumber = Math.floor(susceptible * s2i),
         toRecover = Math.floor(infectious * i2r)
     console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
     becomeInfect(toInfectNumber);
     console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
     redrawCircle();
+    setTimeout("intervalEvent()", 10000);
 }
+
+setTimeout("intervalEvent()", 5000);  
 
 function becomeInfect(total) {
     let hasChange = 0, index = 0,
@@ -87,8 +92,8 @@ function becomeInfect(total) {
 }
 
 function redrawCircle() {
-    circle.enter()
-    .style('fill',d => color(d.cluster))
+    circle
+        .style('fill', d => color(d.cluster))
 }
 
 // Move d to be adjacent to the cluster node.
