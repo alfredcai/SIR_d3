@@ -1,13 +1,13 @@
-var width = 960,
-    height = 500,
+var [width, height] = [960, 500],
     padding = 2, // separation between same-color circles
     clusterPadding = 8, // separation between different-color circles
     maxRadius = 14;
 
-var n = 300, // total number of circles
-    m = 3, // number of distinct clusters
-    susceptible = infectious = recovered = 0,
-    s2i = 0.3, i2r = 0.2, r2s = 0.3
+var [n, m] = [300, 3], // total number of circles,number of distinct clusters
+    susceptible = infectious = recovered = 0;
+
+var [s2i, i2r, r2s] = [0.2, 0.2, 0.3],
+    [toInfectInterval, toRecoverInterval, toSusceptInterval] = [2000, 2000, 2000];
 
 var color = d3.scale.category10()
     .domain(d3.range(m));
@@ -64,25 +64,10 @@ function tick(e) {
         .attr("cy", d => d.y);
 }
 
-function intervalEvent() {
-    /*
-        3 seconds susceptible --> infectious
-        3 seconds infectious --> recovered
-        3 seconds recovered --> susceptible
-        9 seconds use in one event
-     */
-    let toInfectInterval = 2000,
-        toRecoverInterval = 2500,
-        toSusceptInterval = 3000,
-        eventInterval = Math.max(toInfectInterval, toRecoverInterval, toSusceptInterval);
+setTimeout(function () {
     console.log('susceptible:' + susceptible + ",infectious:" + infectious + ",recovered:" + recovered)
-    setTimeout(becomeInfect, toInfectInterval);
-    setTimeout(becomeRecover, toRecoverInterval);
-    setTimeout(becomeSuscept, toSusceptInterval);
-    setTimeout(intervalEvent, eventInterval);
-}
-
-setTimeout(intervalEvent, 5000);
+    becomeInfect();
+}, toInfectInterval);
 
 function becomeInfect() {
     let hasChange = 0,
@@ -99,6 +84,7 @@ function becomeInfect() {
         hasChange++;
     }
     redrawCircle();
+    setTimeout(becomeRecover, toRecoverInterval);
 }
 
 function becomeRecover() {
@@ -116,6 +102,7 @@ function becomeRecover() {
         hasChange++;
     }
     redrawCircle();
+    setTimeout(becomeSuscept, toSusceptInterval);
 }
 
 function becomeSuscept() {
@@ -133,6 +120,7 @@ function becomeSuscept() {
         hasChange++;
     }
     redrawCircle();
+    setTimeout(becomeInfect, toInfectInterval);
 }
 
 function redrawCircle() {
