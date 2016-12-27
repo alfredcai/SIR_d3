@@ -1,0 +1,19 @@
+{
+  "name": "my_d3_project",
+  "version": "0.1.0",
+  "description": "SIR model visualize",
+  "keywords": [
+    "SIR model",
+    "D3.js"
+  ],
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Alfred Cai <alfredcai@outlook.com> (https://github.com/alfredcai)",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^3.5.17",
+    "electron": "^1.4.8"
+  }
+}
