@@ -1,12 +1,12 @@
 const d3 = require('d3');
 
-var width = self.frameElement ? 800 : innerWidth - 200,
-    height = self.frameElement ? 600 : innerHeight,
+var width = self.frameElement ? 700 : innerWidth - 200,
+    height = self.frameElement ? 600 : innerHeight - 100,
     padding = 2, // separation between same-color circles
     clusterPadding = 8, // separation between different-color circles
     maxRadius = 14
 
-var [n, m] = [500, 3] // total number of circles,number of distinct clusters
+var [n, m] = [500, 3] // total number of circles,number of distinct clusters7
 var susceptible = infectious = recovered = 0,
     [s2i, i2r, r2s] = [0.2, 0.2, 0.3],
     [toInfectInterval, toRecoverInterval, toSusceptInterval] = [1000, 1000, 1000]
@@ -32,15 +32,15 @@ var svg = d3.select("svg")
     .attr("height", height)
 
 var circle = svg.selectAll("circle")
-        .data(dataPoints)
-        .enter().append("circle")
-        .attr("r", d => d.radius)
-        .style({
-            "fill": d => color(d.cluster),
-            "stroke": "#000",
-            "stroke-width": "1px"
-        })
-        .call(force.drag)
+    .data(dataPoints)
+    .enter().append("circle")
+    .attr("r", d => d.radius)
+    .style({
+        "fill": d => color(d.cluster),
+        "stroke": "#000",
+        "stroke-width": "1px"
+    })
+    .call(force.drag)
 
 function createDataPoints(n) {
     return d3.range(n).map(() => {
@@ -184,15 +184,15 @@ function becomeSuscept() {
 }
 
 function updateViewData() {
-    d3.select('#total').attr('value', n)
+    d3.select('#total').text(n)
     d3.select('#susceptible').text(susceptible)
     d3.select('#infectious').text(infectious)
     d3.select('#recovered').text(recovered)
 }
 
 function updateBackEndData() {
-    n = d3.select('#total').attr('value');
+    n = d3.select('#total_form').attr('value');
     dataPoints = createDataPoints(n);
     circle = d3.selectAll('circle')
-        .data(dataPoints).enter()   
+        .data(dataPoints).enter()
 }

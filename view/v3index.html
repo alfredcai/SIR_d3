@@ -1,16 +1,29 @@
 <!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
+    <link href="../lib/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <svg></svg>
-        susceptible:<i id="susceptible"></i>
-        infectious:<i id="infectious"></i>
-        recovered:<i id="recovered"></i>
-        total count:<input type="text" id="total"m value="500">
-        <input type="button" value="提交" onclick="updateBackEndData()">
-    <script src="../lib/d3.v3.min.js"></script>
-    <script src="../script/code.js"></script>
+    <div class="container-fluid">
+        <h1 class="text-center">SIR Model Data Visualize</h1>
+        <div class="col-xs-10 d3_svg"> <svg></svg> </div>
+        <div class="col-xs-2 data_detail">
+            <p>Susceptible:<code id="susceptible"></code> </p>
+            <p>Infectious:<code id="infectious"></code></p>
+            <p>Recovered:<code id="recovered"></code></p>
+            <p>Total:<code id="total"></code></p>
+            <!--<div class="totalform">
+                <div class="form-group">
+                    <label for="total count">Total count</label>
+                    <input type="number" class="form-control" id="total_form" placeholder="500" value="500">
+                </div>
+                <button type="button" class="btn btn-default" onclick="updateBackEndData()">submit</button>
+            </div>-->
+        </div>
+    </div>
 </body>
+<script src="../script/code.js"></script>
+</html>
