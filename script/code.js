@@ -7,7 +7,7 @@ var width = self.frameElement ? 700 : innerWidth - 200,
     maxRadius = 14
 
 var [n, m] = [500, 3] // total number of circles,number of distinct clusters7
-var susceptible = infectious = recovered = 0,
+var susceptible = 0, infectious = 0, recovered = 0,
     [s2i, i2r, r2s] = [0.2, 0.2, 0.3],
     [toInfectInterval, toRecoverInterval, toSusceptInterval] = [1000, 1000, 1000]
 
@@ -193,6 +193,5 @@ function updateViewData() {
 function updateBackEndData() {
     n = d3.select('#total_form').attr('value');
     dataPoints = createDataPoints(n);
-    circle = d3.selectAll('circle')
-        .data(dataPoints).enter()
+    
 }
