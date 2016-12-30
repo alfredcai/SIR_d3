@@ -1,1 +1,1 @@
-# my_d3_project
+# SIR model data visualization using d3.js

@@ -1,7 +1,7 @@
 {
   "name": "my_d3_project",
   "version": "0.1.0",
-  "description": "SIR model Data Visualize",
+  "description": "SIR model Data Visualization",
   "keywords": [
     "SIR model",
     "D3.js"
@@ -11,9 +11,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+
     "clean": "rm -rf ./out",
     "clean:osx": "rm -rf ./out/osx",
     "clean:win": "rm -rf ./out/win",
+    
     "pack": "npm run clean && npm run pack:osx && npm run pack:win",
     "pack:osx": "npm run clean:osx && electron-packager . \"SIRModel\" --out=out/osx --platform=darwin --arch=x64 --prune=true --asar=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock",
     "pack:win": "npm run clean:osx && electron-packager . \"SIRModel\" --out=out/win --platform=win32 --arch=ia32 --prune=true --asar=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock"
