@@ -185,9 +185,9 @@ function becomeSuscept() {
 
 function updateViewData() {
     d3.select('#total').text(n)
-    d3.select('#susceptible').text(susceptible)
-    d3.select('#infectious').text(infectious)
-    d3.select('#recovered').text(recovered)
+    d3.select('#susceptible').text(susceptible).style("color",color(0))
+    d3.select('#infectious').text(infectious).style("color",color(1))
+    d3.select('#recovered').text(recovered).style("color",color(2))
 }
 
 function updateBackEndData() {
