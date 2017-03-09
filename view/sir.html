@@ -8,7 +8,11 @@
 
 <body>
     <div class="container-fluid">
-        <h1 class="text-center">SIRS Model Data Visualization</h1>
+        <h1 class="text-center">SIRxxxx Model Data Visualization</h1>
+        <ul class="nav nav-tabs nav-justified">
+            <li role="presentation"><a href="sirs.html">SIRS model</a></li>
+            <li role="presentation" class="active"><a href="#">SIR model</a></li>
+        </ul>
         <div class="col-xs-10 d3_svg"> <svg></svg> </div>
         <div class="col-xs-2 data_detail">
             <p>Susceptible:<code id="susceptible"></code> </p>
@@ -25,5 +29,6 @@
         </div>
     </div>
 </body>
-<script src="../script/code.js"></script>
+<script src="../script/sirs.js"></script>
+<script src="../script/event.js"></script>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link href="../lib/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1 class="text-center">SIRS Model Data Visualization</h1>
+        <ul class="nav nav-tabs nav-justified">
+            <li role="presentation" class="active"><a href="#">SIRS model</a></li>
+            <li role="presentation"><a href="sir.html">SIR model</a></li>
+        </ul>
+        <div class="col-xs-10 d3_svg"><svg></svg></div>
+        <div class="col-xs-2 data_detail">
+            <p>Susceptible:<code id="susceptible"></code> </p>
+            <p>Infectious:<code id="infectious"></code></p>
+            <p>Recovered:<code id="recovered"></code></p>
+            <p>Total:<code id="total"></code></p>
+            <!--<div class="totalform">
+                <div class="form-group">
+                    <label for="total count">Total count</label>
+                    <input type="number" class="form-control" id="total_form" placeholder="500" value="500">
+                </div>
+                <button type="button" class="btn btn-default" onclick="updateBackEndData()">submit</button>
+            </div>-->
+        </div>
+    </div>
+</body>
+<script src="../script/sirs.js"></script>
+<script src="../script/event.js"></script>
+
+</html>

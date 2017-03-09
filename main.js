@@ -9,8 +9,8 @@ function createWindow(window_width = 900, window_height = 700) {
     center: true,
     title: 'Shanghai University Alfred-Recreations-Studio'
   })
-  win.loadURL('file://' + __dirname + '/view/v3index.html')
-  //win.openDevTools()
+  win.loadURL('file://' + __dirname + '/view/sirs.html')
+  win.openDevTools()
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
