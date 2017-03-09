@@ -3,7 +3,7 @@ const d3 = require('d3');
 var width = self.frameElement ? 700 : innerWidth - 200,
     height = self.frameElement ? 600 : innerHeight - 100,
     padding = 2, // separation between same-color circles
-    clusterPadding = 8, // separation between different-color circles
+    clusterPadding = 6, // separation between different-color circles
     maxRadius = 14
 
 var [n, m] = [500, 3] // total number of circles,number of distinct clusters7
@@ -48,7 +48,7 @@ function createDataPoints(n) {
             r = Math.ceil(Math.random() * maxRadius + 0.1),
             node = {
                 cluster: i,
-                radius: r
+                radius: 9
             };
         if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = node;
         switch (i) {

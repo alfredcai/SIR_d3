@@ -1,1 +1,1 @@
-# SIR model data visualization using d3.js
+# SIR(S) model data visualization using d3.js & electron
