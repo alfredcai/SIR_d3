@@ -3,10 +3,10 @@ const setting = require('../script/Setting');
 const util = require('../script/Utility');
 
 // The largest node for each cluster.
-var clusters = new Array(setting.clusterNumber),
-    dataPoints = createSusceptedDataPoints(setting.totalNumber),
-    people = [0, 0, 0],
-    params = [setting.parameters.alpha, setting.parameters.beta, setting.parameters.gamma]
+var people = [0, 0, 0],
+    params = [setting.parameters.alpha, setting.parameters.beta, setting.parameters.gamma],
+    clusters = new Array(setting.clusterNumber),
+    dataPoints = createSusceptedDataPoints(setting.totalNumber)
 
 var force = d3.layout.force()
     .nodes(dataPoints)
@@ -31,7 +31,6 @@ function createDataPoints(n) {
 }
 
 function createSusceptedDataPoints(n) {
-    people = [n, 0, 0];
     let array = d3.range(n).map(() => {
         let node = {
             cluster: 0,
@@ -40,6 +39,7 @@ function createSusceptedDataPoints(n) {
         return node;
     })
     clusters[0] = array[0];
+    people[0] = n;
     return array;
 }
 
@@ -107,36 +107,32 @@ function redrawCircle(circle) {
     )
 }
 
-function updateDataPoints(type) {
-    let changed = 0,
-        total = Math.floor(people[type] * params[type]),
+function updateDataPoints(toType) {
+    let previousType = util.previousType(toType),
+        nextType = util.nextType(toType),
+        changed = 0,
+        total = Math.floor(people[previousType] * params[previousType]),
         index = Math.floor(Math.random() * setting.totalNumber),
-        largestCluster = clusters[0],
-        previousType = util.previousType(type),
-        nextType = util.nextType(type)
+        largestCluster = clusters[previousType]
     while (changed < total) {
-        if (people[type] <= 0) break;
+        if (people[previousType] <= 0) break;
         if (index >= setting.totalNumber) index = 0;
         let thisNode = dataPoints[index++];
         if (thisNode.cluster != previousType || thisNode === largestCluster) continue;
-        thisNode.cluster = type;
+        thisNode.cluster = toType;
         people[previousType]--;
-        people[type]++;
+        people[toType]++;
         changed++;
     }
+    console.log(changed)
     return dataPoints;
-}
-
-function getPeople() {
-    console.log(people)
-    return people;
 }
 
 module.exports = {
     clusters: clusters,
     dataPoints: dataPoints,
     forceLayout: force,
-    updatePeopleData:getPeople,
+    people: people,
     updateDataPoints: updateDataPoints,
     updateCircle: redrawCircle
 };

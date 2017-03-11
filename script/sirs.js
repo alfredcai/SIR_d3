@@ -22,6 +22,7 @@ var circle = svg.selectAll("circle")
     .call(core.forceLayout.drag)
 
 function becomeInfect() {
+    console.log('fxxxk');
     dataPoints = core.updateDataPoints(1);
     core.updateCircle(circle);
     updateViewData();
@@ -43,9 +44,9 @@ function becomeSuscept() {
 }
 
 function updateViewData() {
-    var susceptible = core.updatePeopleData[0],
-        infectious = core.updatePeopleData[1],
-        recovered = core.updatePeopleData[2]
+    var susceptible = core.people[0],
+        infectious = core.people[1],
+        recovered = core.people[2]
     d3.select('#total').text(setting.totalNumber)
     d3.select('#susceptible').text(susceptible).style("color", color(0))
     d3.select('#infectious').text(infectious).style("color", color(1))
@@ -53,4 +54,6 @@ function updateViewData() {
 }
 
 updateViewData();
-setTimeout(becomeInfect, setting.intervalTimeMS.toInfect);
+setTimeout(function () {
+    becomeInfect();
+}, setting.intervalTimeMS.toInfect + 2000);
