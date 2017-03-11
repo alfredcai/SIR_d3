@@ -15,7 +15,7 @@ module.exports = {
         toRecover: 1000,
         toSuscept: 1000
     },
-    parameter: {
+    parameters: {
         alpha: 0.2,
         beta: 0.2,
         gamma: 0.3

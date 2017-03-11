@@ -1,10 +1,13 @@
 const d3 = require('d3');
-const setting = require('../script/setting')
+const setting = require('../script/Setting');
+const util = require('../script/Utility');
 
+// The largest node for each cluster.
 var clusters = new Array(setting.clusterNumber),
-    dataPoints = createSusceptibleDataPoints(setting.totalNumber),
-    [susceptible, infectious, recovered] = [0, 0, 0]
-    
+    dataPoints = createSusceptedDataPoints(setting.totalNumber),
+    people = [0, 0, 0],
+    params = [setting.parameters.alpha, setting.parameters.beta, setting.parameters.gamma]
+
 var force = d3.layout.force()
     .nodes(dataPoints)
     .size([setting.width, setting.height])
@@ -22,18 +25,13 @@ function createDataPoints(n) {
                 radius: r
             };
         if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = node;
-        switch (i) {
-            case 0: susceptible++; break;
-            case 1: infectious++; break;
-            case 2: recovered++; break;
-            default: break;
-        }
+        people[i]++;
         return node;
     });
 }
 
-function createSusceptibleDataPoints(n) {
-    [susceptible, infectious, recovered] = [n, 0, 0];
+function createSusceptedDataPoints(n) {
+    people = [n, 0, 0];
     let array = d3.range(n).map(() => {
         let node = {
             cluster: 0,
@@ -76,8 +74,8 @@ function cluster(alpha) {
 function collide(alpha) {
     var quadtree = d3.geom.quadtree(dataPoints);
     return function (d) {
-        var r = d.radius + setting.maxRadius + 
-                Math.max(setting.padding, setting.clusterPadding),
+        var r = d.radius + setting.maxRadius +
+            Math.max(setting.padding, setting.clusterPadding),
             nx1 = d.x - r,
             nx2 = d.x + r,
             ny1 = d.y - r,
@@ -87,8 +85,8 @@ function collide(alpha) {
                 var x = d.x - quad.point.x,
                     y = d.y - quad.point.y,
                     l = Math.sqrt(x * x + y * y),
-                    r = d.radius + quad.point.radius + 
-                        (d.cluster === quad.point.cluster ? 
+                    r = d.radius + quad.point.radius +
+                        (d.cluster === quad.point.cluster ?
                             setting.padding : setting.clusterPadding);
                 if (l < r) {
                     l = (l - r) / l * alpha;
@@ -108,71 +106,37 @@ function redrawCircle(circle) {
         'fill', d => color(d.cluster)
     )
 }
-function becomeInfect() {
-    let hasChange = 0,
-        index = Math.floor(Math.random() * n),
-        total = Math.floor(susceptible * s2i),
-        thisCluster = clusters[0]
-    while (hasChange < total) {
-        if (susceptible <= 0) break;
-        if (index >= n) index = 0;
+
+function updateDataPoints(type) {
+    let changed = 0,
+        total = Math.floor(people[type] * params[type]),
+        index = Math.floor(Math.random() * setting.totalNumber),
+        largestCluster = clusters[0],
+        previousType = util.previousType(type),
+        nextType = util.nextType(type)
+    while (changed < total) {
+        if (people[type] <= 0) break;
+        if (index >= setting.totalNumber) index = 0;
         let thisNode = dataPoints[index++];
-        if (thisNode.cluster != 0 || thisNode === thisCluster) continue;
-        thisNode.cluster = 1;
-        susceptible--; infectious++;
-        hasChange++;
+        if (thisNode.cluster != previousType || thisNode === largestCluster) continue;
+        thisNode.cluster = type;
+        people[previousType]--;
+        people[type]++;
+        changed++;
     }
-    redrawCircle();
-    updateViewData();
-    setTimeout(becomeRecover, toRecoverInterval);
+    return dataPoints;
 }
 
-function becomeRecover() {
-    let hasChange = 0,
-        index = Math.floor(Math.random() * n),
-        total = Math.floor(infectious * i2r),
-        thisCluster = clusters[1]
-    while (hasChange < total) {
-        if (infectious <= 0) break;
-        if (index >= n) index = 0;
-        let thisNode = dataPoints[index++];
-        if (thisNode.cluster != 1 || thisNode === thisCluster) continue;
-        thisNode.cluster = 2;
-        infectious--; recovered++;
-        hasChange++;
-    }
-    redrawCircle();
-    updateViewData();
-    setTimeout(becomeSuscept, toSusceptInterval);
-}
-
-function becomeSuscept() {
-    let hasChange = 0,
-        index = Math.floor(Math.random() * n),
-        total = Math.floor(recovered * r2s),
-        thisCluster = clusters[2]
-    while (hasChange < total) {
-        if (recovered <= 0) break;
-        if (index >= n) index = 0;
-        let thisNode = dataPoints[index++];
-        if (thisNode.cluster != 2 || thisNode === thisCluster) continue;
-        thisNode.cluster = 0;
-        recovered--; susceptible++;
-        hasChange++;
-    }
-    redrawCircle();
-    updateViewData();
-    setTimeout(becomeInfect, toInfectInterval);
+function getPeople() {
+    console.log(people)
+    return people;
 }
 
 module.exports = {
-    clusters:clusters,
-    dataPoints:dataPoints,
-    people:{
-        suscepted:susceptible,
-        infected:infectious,
-        recovered:recovered
-    },
+    clusters: clusters,
+    dataPoints: dataPoints,
     forceLayout: force,
-    updateCircle:redrawCircle
+    updatePeopleData:getPeople,
+    updateDataPoints: updateDataPoints,
+    updateCircle: redrawCircle
 };
