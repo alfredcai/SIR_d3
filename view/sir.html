@@ -8,10 +8,10 @@
 
 <body>
     <div class="container-fluid">
-        <h1 class="text-center">SIRxxxx Model Data Visualization</h1>
+        <h1 class="text-center">SIR模型传播过程的可视化</h1>
         <ul class="nav nav-tabs nav-justified">
-            <li role="presentation"><a href="sirs.html">SIRS model</a></li>
-            <li role="presentation" class="active"><a href="#">SIR model</a></li>
+            <li role="presentation"><a href="sirs.html">SIRS模型</a></li>
+            <li role="presentation" class="active"><a href="#">SIR模型</a></li>
         </ul>
         <div class="col-xs-10 d3_svg"> <svg></svg> </div>
         <div class="col-xs-2 data_detail">
@@ -19,16 +19,10 @@
             <p>Infectious:<code id="infectious"></code></p>
             <p>Recovered:<code id="recovered"></code></p>
             <p>Total:<code id="total"></code></p>
-            <!--<div class="totalform">
-                <div class="form-group">
-                    <label for="total count">Total count</label>
-                    <input type="number" class="form-control" id="total_form" placeholder="500" value="500">
-                </div>
-                <button type="button" class="btn btn-default" onclick="updateBackEndData()">submit</button>
-            </div>-->
         </div>
     </div>
 </body>
-<script src="../script/sirs.js"></script>
+<script src="../script/oldsirs.js"></script>
 <script src="../script/event.js"></script>
+
 </html>
