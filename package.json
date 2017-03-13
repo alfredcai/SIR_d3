@@ -1,7 +1,7 @@
 {
-  "name": "my_d3_project",
+  "name": "SIRS",
   "version": "0.1.0",
-  "description": "SIR model Data Visualization",
+  "description": "SIR(S) model Data Visualization",
   "keywords": [
     "SIR model",
     "D3.js"

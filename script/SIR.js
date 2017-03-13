@@ -33,13 +33,6 @@ function becomeRecover() {
     dataPoints = core.updateDataPoints(2, params[1]);
     core.updateCircle(circle);
     updateViewData();
-    setTimeout(becomeSuscept, config.intervalTimeMS.toSuscept);
-}
-
-function becomeSuscept() {
-    dataPoints = core.updateDataPoints(0, params[2]);
-    core.updateCircle(circle);
-    updateViewData();
     setTimeout(becomeInfect, config.intervalTimeMS.toInfect);
 }
 

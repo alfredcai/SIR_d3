@@ -101,11 +101,11 @@ function redrawCircle(circle) {
     )
 }
 
-function updateDataPoints(toType) {
+function updateDataPoints(toType, rate) {
     let previousType = util.previousType(toType),
         nextType = util.nextType(toType),
         changed = 0,
-        total = Math.floor(people[previousType] * params[previousType]),
+        total = Math.floor(people[previousType] * rate),
         index = Math.floor(Math.random() * config.totalNumber),
         largestCluster = clusters[previousType]
     while (changed < total) {

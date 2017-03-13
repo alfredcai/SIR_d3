@@ -15,14 +15,17 @@
         </ul>
         <div class="col-xs-10 d3_svg"> <svg></svg> </div>
         <div class="col-xs-2 data_detail">
-            <p>Susceptible:<code id="susceptible"></code> </p>
-            <p>Infectious:<code id="infectious"></code></p>
-            <p>Recovered:<code id="recovered"></code></p>
-            <p>Total:<code id="total"></code></p>
+            <p>Susceptible: <code id="susceptible">0</code> </p>
+            <p>Infectious: <code id="infectious">0</code></p>
+            <p>Recovered: <code id="recovered">0</code></p>
+            <p>Total: <code id="total">0</code></p>
+            <p>P(S->I) = <code id="alpha">0</code></p>
+            <p>P(I->R) = <code id="beta">0</code></p>
+            <button class="btn btn-default btn-block btn-xs" id="submit">submit</button>
         </div>
     </div>
 </body>
-<script src="../script/oldsirs.js"></script>
+<script src="../script/SIR.js"></script>
 <script src="../script/event.js"></script>
 
 </html>
