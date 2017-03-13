@@ -17,8 +17,8 @@
     "clean:win": "rm -rf ./out/win",
     
     "pack": "npm run clean && npm run pack:osx && npm run pack:win",
-    "pack:osx": "npm run clean:osx && electron-packager . \"SIRModel\" --out=out/osx --platform=darwin --arch=x64 --prune=true --asar=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock",
-    "pack:win": "npm run clean:win && electron-packager . \"SIRModel\" --out=out/win --platform=win32 --arch=ia32 --prune=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock"
+    "pack:osx": "npm run clean:osx && electron-packager . \"SIRSModel\" --out=out/osx --platform=darwin --arch=x64 --prune=true --asar=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock",
+    "pack:win": "npm run clean:win && electron-packager . \"SIRSModel\" --out=out/win --platform=win32 --arch=ia32 --prune=true --ignore=out --ignore=README.md --ignore=.gitignore --ignore=yarn.lock"
   },
   "dependencies": {
     "d3": "^3.5.17",
