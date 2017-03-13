@@ -1,16 +1,16 @@
 const d3 = require('d3');
-const setting = require('../script/Setting');
+const config = require('../script/Config');
 const util = require('../script/Utility');
 
 // The largest node for each cluster.
 var people = [0, 0, 0],
-    params = [setting.parameters.alpha, setting.parameters.beta, setting.parameters.gamma],
-    clusters = new Array(setting.clusterNumber),
-    dataPoints = createSusceptedDataPoints(setting.totalNumber)
+    params = [config.parameters.alpha, config.parameters.beta, config.parameters.gamma],
+    clusters = new Array(config.clusterNumber),
+    dataPoints = createSusceptedDataPoints(config.totalNumber)
 
 var force = d3.layout.force()
     .nodes(dataPoints)
-    .size([setting.width, setting.height])
+    .size([config.width, config.height])
     .gravity(.02)
     .charge(0)
     .on("tick", tick)
@@ -18,12 +18,9 @@ var force = d3.layout.force()
 
 function createDataPoints(n) {
     return d3.range(n).map(() => {
-        let i = Math.floor(Math.random() * setting.clusterNumber),
-            r = setting.maxRadius,
-            node = {
-                cluster: i,
-                radius: r
-            };
+        let i = Math.floor(Math.random() * config.clusterNumber),
+            r = config.maxRadius,
+            node = { cluster: i, radius: r };
         if (!clusters[i] || (r > clusters[i].radius)) clusters[i] = node;
         people[i]++;
         return node;
@@ -32,10 +29,7 @@ function createDataPoints(n) {
 
 function createSusceptedDataPoints(n) {
     let array = d3.range(n).map(() => {
-        let node = {
-            cluster: 0,
-            radius: setting.maxRadius
-        };
+        let node = { cluster: 0, radius: config.maxRadius };
         return node;
     })
     clusters[0] = array[0];
@@ -74,8 +68,8 @@ function cluster(alpha) {
 function collide(alpha) {
     var quadtree = d3.geom.quadtree(dataPoints);
     return function (d) {
-        var r = d.radius + setting.maxRadius +
-            Math.max(setting.padding, setting.clusterPadding),
+        var r = d.radius + config.maxRadius +
+            Math.max(config.padding, config.clusterPadding),
             nx1 = d.x - r,
             nx2 = d.x + r,
             ny1 = d.y - r,
@@ -87,7 +81,7 @@ function collide(alpha) {
                     l = Math.sqrt(x * x + y * y),
                     r = d.radius + quad.point.radius +
                         (d.cluster === quad.point.cluster ?
-                            setting.padding : setting.clusterPadding);
+                            config.padding : config.clusterPadding);
                 if (l < r) {
                     l = (l - r) / l * alpha;
                     d.x -= x *= l;
@@ -112,27 +106,27 @@ function updateDataPoints(toType) {
         nextType = util.nextType(toType),
         changed = 0,
         total = Math.floor(people[previousType] * params[previousType]),
-        index = Math.floor(Math.random() * setting.totalNumber),
+        index = Math.floor(Math.random() * config.totalNumber),
         largestCluster = clusters[previousType]
     while (changed < total) {
         if (people[previousType] <= 0) break;
-        if (index >= setting.totalNumber) index = 0;
+        if (index >= config.totalNumber) index = 0;
         let thisNode = dataPoints[index++];
         if (thisNode.cluster != previousType || thisNode === largestCluster) continue;
         thisNode.cluster = toType;
+        if (!clusters[toType]) clusters[toType] = thisNode;
         people[previousType]--;
         people[toType]++;
         changed++;
     }
-    console.log(changed)
     return dataPoints;
 }
 
 module.exports = {
     clusters: clusters,
     dataPoints: dataPoints,
-    forceLayout: force,
     people: people,
+    forceLayout: force,
     updateDataPoints: updateDataPoints,
     updateCircle: redrawCircle
 };
