@@ -1,10 +1,14 @@
 //misc event
 document.addEventListener('DOMContentLoaded', function () {
-    var tag = document.querySelectorAll(".tag");
-    console.log(tag);
-    tag.forEach(function (e) {
-        e.addEventListener('click',function(){
-            window.location.replace('sir.html')
-        })
-    })
+    setTimeout(checkError, 10 * 1000);
+
+    function checkError() {
+        var error = document.getElementsByClassName('error');
+        if (error) {
+            for (let i = 0; i < error.length; i++) {
+                error[i].remove();
+            }
+        }
+        setTimeout(checkError, 10 * 1000);
+    }
 });

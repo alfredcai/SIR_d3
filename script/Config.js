@@ -1,7 +1,7 @@
 const d3 = require('d3');
 
 module.exports = {
-    width: self.frameElement ? 700 : innerWidth - 200,
+    width: self.frameElement ? 800 : innerWidth - 200,
     height: self.frameElement ? 600 : innerHeight - 120,
     padding: 2, // separation between same-color circles
     clusterPadding: 6, // separation between different-color circles

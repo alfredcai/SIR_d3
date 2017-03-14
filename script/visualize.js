@@ -33,7 +33,7 @@ function createSusceptedDataPoints(n) {
         return node;
     })
     clusters[0] = array[0];
-    people[0] = n;
+    people = [n, 0, 0];
     return array;
 }
 
@@ -49,6 +49,7 @@ function tick(e) {
 function cluster(alpha) {
     return function (d) {
         var cluster = clusters[d.cluster];
+        if (!cluster) return;
         if (cluster === d) return;
         var x = d.x - cluster.x,
             y = d.y - cluster.y,
@@ -122,11 +123,24 @@ function updateDataPoints(toType, rate) {
     return dataPoints;
 }
 
+function resetDataPoints() {
+    clusters = new Array(config.clusterNumber)
+    dataPoints.forEach(function (node) {
+        node.cluster = 0;
+        node.radius = config.maxRadius
+    })
+    clusters = dataPoints[0]
+    people[0] = dataPoints.length
+    people[1] = 0
+    people[2] = 0
+}
+
 module.exports = {
     clusters: clusters,
     dataPoints: dataPoints,
     people: people,
     forceLayout: force,
     updateDataPoints: updateDataPoints,
-    updateCircle: redrawCircle
+    updateCircle: redrawCircle,
+    resetDataPoints: resetDataPoints
 };

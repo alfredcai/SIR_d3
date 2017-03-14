@@ -8,17 +8,19 @@
 
 <body>
     <div class="container-fluid">
-        <h1 class="text-center">SIRS模型传播过程的可视化</h1>
+        <h1 class="text-center">the Process of Communication For SIR(S) Model</h1>
         <ul class="nav nav-tabs nav-justified">
-            <li role="presentation" class="active"><a href="#">SIRS模型</a></li>
-            <li role="presentation"><a href="sir.html">SIR模型</a></li>
+            <li role="presentation" class="active"><a href="#">SIRS Model</a></li>
+            <li role="presentation"><a href="sir.html">SIR Model</a></li>
         </ul>
-        <div class="col-xs-10 d3_svg"><svg></svg></div>
-        <div class="col-xs-2 data_detail">
-            <p>Susceptible:<code id="susceptible"></code> </p>
-            <p>Infectious:<code id="infectious"></code></p>
-            <p>Recovered:<code id="recovered"></code></p>
-            <p>Total:<code id="total"></code></p>
+        <div class="col-xs-10 d3_svg">
+            <svg></svg>
+        </div>
+        <div class="col-xs-2 data_table">
+            <p>Susceptible:<code id="susceptible">0</code> </p>
+            <p>Infectious:<code id="infectious">0</code></p>
+            <p>Recovered:<code id="recovered">0</code></p>
+            <p>Total:<code id="total">0</code></p>
             <p>P(S->I) = <code id="alpha">0</code></p>
             <p>P(I->R) = <code id="beta">0</code></p>
             <p>P(R->S) = <code id="gamma">0</code></p>

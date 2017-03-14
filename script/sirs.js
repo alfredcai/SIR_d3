@@ -2,8 +2,7 @@ const d3 = require('d3');
 const config = require('../script/Config');
 var core = require('../script/Visualize');
 
-var clusters = core.clusters,
-    dataPoints = core.dataPoints,
+var dataPoints = core.dataPoints,
     color = config.color,
     params = [config.parameters.alpha, config.parameters.beta, config.parameters.gamma]
 

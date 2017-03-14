@@ -1,9 +1,9 @@
 {
-  "name": "SIRS",
+  "name": "sirs_model_visualization",
   "version": "0.1.0",
-  "description": "SIR(S) model Data Visualization",
+  "description": "SIR(S) Model Data Visualization",
   "keywords": [
-    "SIR model",
+    "SIR Model",
     "D3.js"
   ],
   "author": "Alfred Cai <alfredcai@outlook.com> (https://github.com/alfredcai)",
