@@ -3,11 +3,11 @@ const {app, BrowserWindow} = require('electron')
 
 let win
 
-function createWindow(window_width = 900, window_height = 700) {
+function createWindow(window_width = 900, window_height = 800) {
   win = new BrowserWindow({
     width: window_width, height: window_height,
     center: true,
-    title: 'Shanghai University Alfred-Recreations-Studio'
+    title: 'Shanghai University Alfred Recreations'
   })
   win.loadURL('file://' + __dirname + '/view/sirs.html')
   //win.openDevTools()
