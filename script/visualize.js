@@ -12,9 +12,8 @@ var force = d3.layout.force()
     .nodes(dataPoints)
     .size([config.width, config.height])
     .gravity(.02)
-    .charge(0)
+    .charge(-10)
     .on("tick", tick)
-    .start()
 
 function createDataPoints(n) {
     return d3.range(n).map(() => {
@@ -28,8 +27,12 @@ function createDataPoints(n) {
 }
 
 function createSusceptedDataPoints(n) {
-    let array = d3.range(n).map(() => {
-        let node = { cluster: 0, radius: config.maxRadius };
+    let array = d3.range(n).map((i) => {
+        let node = {
+            'name': i,
+            'cluster': 0,
+            'radius': config.maxRadius
+        };
         return node;
     })
     clusters[0] = array[0];
@@ -38,11 +41,17 @@ function createSusceptedDataPoints(n) {
 }
 
 function tick(e) {
-    circle
+    d3.select("svg").selectAll("circle")
         .each(cluster(10 * e.alpha * e.alpha))
         .each(collide(.5))
         .attr("cx", d => d.x)
         .attr("cy", d => d.y);
+
+    d3.select("svg").selectAll("line")
+        .attr("x1", function (d) { return d.source.x; })
+        .attr("y1", function (d) { return d.source.y; })
+        .attr("x2", function (d) { return d.target.x; })
+        .attr("y2", function (d) { return d.target.y; });
 }
 
 // Move d to be adjacent to the cluster node.
@@ -50,11 +59,14 @@ function cluster(alpha) {
     return function (d) {
         var cluster = clusters[d.cluster];
         if (!cluster) return;
-        if (cluster === d) return;
+        if (cluster == d) return;
+        console.log(d);
+        console.log(cluster)
         var x = d.x - cluster.x,
             y = d.y - cluster.y,
             l = Math.sqrt(x * x + y * y),
             r = d.radius + cluster.radius;
+        console.log('x,y,l,r' + x + ',' + y + ',' + l + ',' + r)
         if (l != r) {
             l = (l - r) / l * alpha;
             d.x -= x *= l;

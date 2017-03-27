@@ -19,7 +19,7 @@ var circle = svg.selectAll("circle")
         "stroke": "#000",
         "stroke-width": "1px"
     })
-    .call(core.forceLayout.drag)
+    .call(core.forceLayout.start().drag)
 
 function becomeInfect() {
     dataPoints = core.updateDataPoints(1, params[0]);

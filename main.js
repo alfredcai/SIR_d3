@@ -3,14 +3,14 @@ const {app, BrowserWindow} = require('electron')
 
 let win
 
-function createWindow(window_width = 900, window_height = 800) {
+function createWindow(window_width = 1000, window_height = 900) {
   win = new BrowserWindow({
     width: window_width, height: window_height,
     center: true,
     title: 'Shanghai University Alfred Recreations'
   })
-  win.loadURL('file://' + __dirname + '/view/sirs.html')
-  //win.openDevTools()
+  win.loadURL('file://' + __dirname + '/view/homogeneous.html')
+  win.openDevTools()
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time

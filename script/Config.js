@@ -6,7 +6,7 @@ module.exports = {
     padding: 2, // separation between same-color circles
     clusterPadding: 6, // separation between different-color circles
     maxRadius: 9,
-    totalNumber: 500,
+    totalNumber: 100,
     clusterNumber: 3,
     color: d3.scale.category10()
         .domain(d3.range(self.clusterNumber)),
