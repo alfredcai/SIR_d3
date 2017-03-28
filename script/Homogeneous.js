@@ -35,7 +35,7 @@ var path = svg.selectAll("line")
     .data(links)
     .enter()
     .append('line')
-    .style({'stroke':'#080808'})
+    .style({ 'stroke': '#000' })
 
 function createLinks(n, m) {
     let data = [];
@@ -53,3 +53,39 @@ function createLinks(n, m) {
     }
     return data;
 }
+
+function becomeInfect() {
+    dataPoints = core.updateDataPoints(1, params[0]);
+    core.updateCircle(circle);
+    updateViewData();
+    setTimeout(becomeRecover, config.intervalTimeMS.toRecover);
+}
+
+function becomeRecover() {
+    dataPoints = core.updateDataPoints(2, params[1]);
+    core.updateCircle(circle);
+    updateViewData();
+    setTimeout(becomeSuscept, config.intervalTimeMS.toSuscept);
+}
+
+function becomeSuscept() {
+    dataPoints = core.updateDataPoints(0, params[2]);
+    core.updateCircle(circle);
+    updateViewData();
+    setTimeout(becomeInfect, config.intervalTimeMS.toInfect);
+}
+
+function updateViewData() {
+    d3.select('#total').text(config.totalNumber)
+    d3.select('#susceptible').text(core.people[0]).style("color", config.color(0))
+    d3.select('#infectious').text(core.people[1]).style("color", config.color(1))
+    d3.select('#recovered').text(core.people[2]).style("color", config.color(2))
+    d3.select('#alpha').text(config.parameters.alpha)
+    d3.select('#beta').text(config.parameters.beta)
+    d3.select('#gamma').text(config.parameters.gamma)
+}
+
+updateViewData();
+setTimeout(function () {
+    becomeInfect();
+}, config.intervalTimeMS.toInfect + 2000);

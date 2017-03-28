@@ -12,7 +12,7 @@
         <ul class="nav nav-tabs nav-justified">
             <li role="presentation"><a href="sirs.html">SIRS Model</a></li>
             <li role="presentation"><a href="sis.html">SIR Model</a></li>
-            <li role="presentation" class="active"><a href="#">Homogeneous Network Model</a></li>
+            <li role="presentation" class="active"><a href="#">Homogeneous Network</a></li>
         </ul>
         <div class="col-xs-10 d3_svg">
             <svg></svg>
@@ -22,15 +22,9 @@
             <p>Infectious: <code id="infectious">0</code></p>
             <p>Recovered: <code id="recovered">0</code></p>
             <p>Total: <code id="total">0</code></p>
-            <div class="input-group input-group-sm">
-                <span class="input-group-addon">P(S->I) =</span>
-                <input type="text" id="alpha" class="form-control" placeholder="n<1">
-            </div>
-            <div class="input-group input-group-sm">
-                <span class="input-group-addon">P(I->R) =</span>
-                <input type="text" id="beta" class="form-control">
-            </div>
-            <button onclick="getViewData()" class="btn btn-default btn-block btn-xs" id="submit">submit</button>
+            <p>P(S->I) = <code id="alpha">0</code></p>
+            <p>P(I->R) = <code id="beta">0</code></p>
+            <p>P(R->S) = <code id="gamma">0</code></p>
         </div>
     </div>
 </body>

@@ -60,13 +60,10 @@ function cluster(alpha) {
         var cluster = clusters[d.cluster];
         if (!cluster) return;
         if (cluster == d) return;
-        console.log(d);
-        console.log(cluster)
         var x = d.x - cluster.x,
             y = d.y - cluster.y,
             l = Math.sqrt(x * x + y * y),
             r = d.radius + cluster.radius;
-        console.log('x,y,l,r' + x + ',' + y + ',' + l + ',' + r)
         if (l != r) {
             l = (l - r) / l * alpha;
             d.x -= x *= l;
@@ -110,7 +107,7 @@ function collide(alpha) {
 
 function redrawCircle(circle) {
     circle.style(
-        'fill', d => color(d.cluster)
+        'fill', d => config.color(d.cluster)
     )
 }
 
