@@ -1,6 +1,6 @@
 # SIR(S) model data visualization
 
-This is a demo for showing the process of communication for SIRS model and SIR model
+This is a demo for showing the process of spreading for SIRS model and SIR model
 In the SIR model, you also can change the infected rate and recovered rate to see each circumstance.
 
 ## Preview
