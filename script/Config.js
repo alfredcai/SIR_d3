@@ -8,16 +8,15 @@ module.exports = {
     maxRadius: 9,
     totalNumber: 100,
     clusterNumber: 3,
-    color: d3.scale.category10()
-        .domain(d3.range(self.clusterNumber)),
+    color: d3.scale.category10().domain(d3.range(self.clusterNumber)),
     intervalTimeMS: {
         toInfect: 1000,
         toRecover: 1000,
-        toSuscept: 1000
+        toSuscept: 1000,
     },
     parameters: {
         alpha: 0.2,
         beta: 0.8,
-        gamma: 0.3
-    }
-}
+        gamma: 0.3,
+    },
+};
