@@ -9,22 +9,34 @@
   "author": "Alfred Cai <alfredcai@outlook.com> (https://github.com/alfredcai)",
   "license": "MIT",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alfredcai/SIRS.git"
+  },
+  "gitHooks": {
+    "pre-commit": "npm run lint"
+  },
   "scripts": {
     "start": "electron .",
-
     "clean": "rm -rf ./out",
     "clean:osx": "rm -rf ./out/osx",
     "clean:win": "rm -rf ./out/win",
-    
     "pack": "npm run clean && npm run pack:osx && npm run pack:win",
     "pack:osx": "npm run clean:osx && electron-packager . \"SIRSModel\" --out=out/osx --platform=darwin --arch=x64 --prune=true --asar=true --ignore=out --ignore=.DS_Store --ignore=.gitignore --ignore=yarn.lock",
-    "pack:win": "npm run clean:win && electron-packager . \"SIRSModel\" --out=out/win --platform=win32 --arch=ia32 --prune=true --ignore=out --ignore=.DS_Store --ignore=.gitignore --ignore=yarn.lock"
+    "pack:win": "npm run clean:win && electron-packager . \"SIRSModel\" --out=out/win --platform=win32 --arch=ia32 --prune=true --ignore=out --ignore=.DS_Store --ignore=.gitignore --ignore=yarn.lock",
+    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{js,json,md}\" --write",
+    "lint": "eslint \"**/*.js\" && prettier-check \"**/*.{js,json,md}\""
   },
   "dependencies": {
     "d3": "^3.5.17",
-    "electron": "^1.4.8"
+    "electron": "latest"
   },
   "devDependencies": {
-    "electron-packager": "^8.4.0"
+    "electron-packager": "^8.4.0",
+    "eslint": "5.15.1",
+    "eslint-config-prettier": "4.1.0",
+    "eslint-plugin-prettier": "3.0.1",
+    "prettier": "1.16.4",
+    "prettier-check": "2.0.0"
   }
 }
