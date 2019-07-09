@@ -29,11 +29,11 @@
   },
   "dependencies": {
     "d3": "^3.5.17",
-    "electron": "latest"
+    "electron": "^1.4.8"
   },
   "devDependencies": {
     "electron-packager": "^8.4.0",
-    "eslint": "5.15.1",
+    "eslint": "6.0.1",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",
     "prettier": "1.16.4",
